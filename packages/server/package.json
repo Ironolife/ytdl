@@ -1,12 +1,12 @@
 {
   "name": "@ytdl/server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/src/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
     "watch": "rm -rf dist && tsc -w",
-    "dev": "nodemon dist/index.js",
+    "dev": "nodemon dist/src/index.js",
     "build": "rm -rf dist && tsc",
     "genenv": "gen-env-types .env -o src/@types/env.d.ts -e ."
   },
