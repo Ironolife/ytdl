@@ -17,6 +17,7 @@ jobs:
       - run: |
           touch .env
           echo CORS_ORIGIN=${{ secrets.CORS_ORIGIN }} >> .env
+          echo PORT=${{ secrets.PORT }} >> .env
           cat .env
       - uses: martinbeentjes/npm-get-version-action@master
         id: version
@@ -50,5 +51,3 @@ jobs:
             docker pull ironolife/ytdl:${{ steps.version.outputs.current-version }}
             docker tag ironolife/ytdl:${{ steps.version.outputs.current-version }} dokku/ytdl-api:${{ steps.version.outputs.current-version }}
             dokku tags:deploy ytdl-api ${{ steps.version.outputs.current-version }}
-
-    
