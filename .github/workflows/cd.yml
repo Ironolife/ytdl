@@ -1,0 +1,25 @@
+name: CD
+
+on:
+  push:
+    branches: [production]
+    paths: 'packages/server/**'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/server
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: yarn install
+      - run: yarn add -D serverless-plugin-monorepo
+      - run: yarn build
+      - run: npm install -g serverless
+      - run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - run: serverless deploy --stage prod --region ${{secrets.AWS_REGION}}
