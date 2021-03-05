@@ -4,6 +4,7 @@ provider:
   runtime: nodejs12.x
 plugins:
   - serverless-plugin-monorepo
+  - serverless-dotenv-plugin
 functions:
   app:
     handler: dist/src/index.handler

@@ -18,7 +18,11 @@ jobs:
         with:
           node-version: 14
       - run: yarn install
-      - run: yarn add -D serverless-plugin-monorepo
+      - run: yarn add -D serverless-plugin-monorepo serverless-dotenv-plugin
+      - run: |
+          touch .env
+          echo CORS_ORIGIN=${{ secrets.CORS_ORIGIN }} >> .env
+          cat .env
       - run: yarn build
       - run: npm install -g serverless
       - run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}

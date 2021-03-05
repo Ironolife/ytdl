@@ -2,8 +2,18 @@ import express from 'express';
 import pk from 'package.json';
 import serverless from 'serverless-http';
 import ytdl from 'ytdl-core';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+  })
+);
 
 app.get('/version', async (_, res) => {
   res.status(200).send(pk.version);
