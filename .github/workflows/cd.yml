@@ -6,24 +6,49 @@ on:
     paths: 'packages/server/**'
 
 jobs:
-  build_and_deploy:
+  build_image:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: packages/server
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 14
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - run: yarn install
-      - run: yarn add -D serverless-plugin-monorepo serverless-dotenv-plugin
+      - uses: docker/setup-buildx-action@v1
       - run: |
           touch .env
           echo CORS_ORIGIN=${{ secrets.CORS_ORIGIN }} >> .env
           cat .env
-      - run: yarn build
-      - run: npm install -g serverless
-      - run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - run: serverless deploy --stage prod --region ${{secrets.AWS_REGION}}
+      - uses: martinbeentjes/npm-get-version-action@master
+        id: version
+        with:
+          path: packages/server
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v2
+        with:
+          context: packages/server
+          file: packages/server/Dockerfile
+          push: true
+          tags: ironolife/ytdl:${{ steps.version.outputs.current-version }}
+  deploy_image:
+    needs: [build_image]:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: martinbeentjes/npm-get-version-action@master
+        id: version
+        with:
+          path: packages/server
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker pull ironolife/ytdl:${{ steps.version.outputs.current-version }}
+            docker tag ironolife/ytdl:${{ steps.version.outputs.current-version }} dokku/ytdl-api:${{ steps.version.outputs.current-version }}
+            dokku tags:deploy ytdl-api ${{ steps.version.outputs.current-version }}
+
+    
