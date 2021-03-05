@@ -29,7 +29,12 @@ const DownloadButton = ({ url, itag }: DownloadButtonProps) => {
   };
 
   return (
-    <button className='text-green-500' type='button' onClick={handleClick}>
+    <button
+      className='text-green-500'
+      type='button'
+      onClick={handleClick}
+      aria-label='download button'
+    >
       <DownloadIcon />
     </button>
   );

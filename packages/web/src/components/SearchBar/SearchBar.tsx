@@ -34,11 +34,13 @@ const SearchBar = ({ onSubmit }: SearchBarProps) => {
         onChange={handleChange}
         type='url'
         placeholder='http://youtube.com/watch?v=...'
+        aria-label='youtube url input'
       />
       <button
         className={url ? '' : 'opacity-50 pointer-events-none'}
         type='submit'
         disabled={!url}
+        aria-label='search button'
       >
         <SearchIcon />
       </button>
