@@ -1,5 +1,5 @@
 import express from 'express';
-import pk from 'package.json';
+import pk from '../package.json';
 import ytdl from 'ytdl-core';
 import cors from 'cors';
 import dotenv from 'dotenv';
