@@ -1,7 +1,7 @@
 {
   "name": "@ytdl/server",
-  "version": "1.0.4",
-  "main": "dist/index.js",
+  "version": "1.0.5",
+  "main": "dist/src/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
