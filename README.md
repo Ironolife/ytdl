@@ -1,8 +1,5 @@
 ## Youtube Downloader with ytdl-core
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ironolife/YTDL/CD?style=flat-square)
-![GitHub](https://img.shields.io/github/license/ironolife/YTDL?style=flat-square)
-
 <div>
   <a href="https://nodejs.org/en/">
     <img height="40" width="40" src="https://cdn.svgporn.com/logos/nodejs-icon.svg">
