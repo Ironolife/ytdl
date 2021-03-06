@@ -28,7 +28,10 @@ const main = async () => {
       const info = await ytdl.getInfo(url);
 
       const availableFormats = info.formats
-        .filter((format) => !!format.qualityLabel && format.hasVideo)
+        .filter(
+          (format) =>
+            !!format.qualityLabel && format.hasVideo && format.hasAudio
+        )
         .sort((a, b) => {
           if (a.container > b.container) return 1;
           else if (b.container > a.container) return -1;
@@ -38,23 +41,6 @@ const main = async () => {
               parseInt(a.qualityLabel.split('p')[0], 10)
             );
         });
-
-      const dualFormats = availableFormats.filter(
-        (format) => format.hasAudio && format.hasAudio
-      );
-
-      dualFormats.forEach((dualFormat) => {
-        const singleFormat = availableFormats.find(
-          (format) =>
-            format.container === dualFormat.container &&
-            format.qualityLabel === dualFormat.qualityLabel &&
-            format.itag !== dualFormat.itag
-        );
-
-        if (singleFormat) {
-          availableFormats.splice(availableFormats.indexOf(singleFormat), 1);
-        }
-      });
 
       res.status(200).send(availableFormats);
     } catch (err) {
