@@ -15,7 +15,9 @@ const main = async () => {
   );
 
   app.get('/version', async (_, res) => {
-    res.status(200).send(process.env.npm_package_version);
+    res
+      .status(200)
+      .send(process.env.npm_package_version || process.env.VERSION);
   });
 
   app.get('/formats', async (req, res) => {
