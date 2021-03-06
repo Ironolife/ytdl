@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "craco start",
-    "build": "rm -rf dist && craco build",
+    "build": "rm -rf build && craco build",
     "genenv": "gen-env-types .env -o src/@types/env.d.ts -e ."
   },
   "dependencies": {
