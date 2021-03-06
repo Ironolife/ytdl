@@ -5,9 +5,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "watch": "tsc -w",
+    "watch": "rm -rf dist && tsc -w",
     "dev": "nodemon dist/index.js",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "genenv": "gen-env-types .env -o src/@types/env.d.ts -e ."
   },
   "dependencies": {
