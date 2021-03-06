@@ -4,7 +4,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces run build",
+    "build": "rimraf **/{build,dist} && yarn workspaces run build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
@@ -14,8 +14,6 @@
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.31",
     "babel-jest": "^26.6.3",
-    "gen-env-types": "^1.0.5",
-    "jest": "26.6.0",
-    "rimraf": "^3.0.2"
+    "jest": "26.6.0"
   }
 }
