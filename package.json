@@ -4,7 +4,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "rimraf **/{build,dist} && yarn workspaces run build",
+    "build": "rimraf /packages/**/{build,dist} && yarn workspaces run build",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
