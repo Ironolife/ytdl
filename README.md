@@ -39,6 +39,7 @@
 - [TailwindCSS](https://tailwindcss.com/)
 - [Jest](https://jestjs.io/)
 - [Docker](https://www.docker.com/)
+- [ytdl-core](https://github.com/fent/node-ytdl-core)
 
 ### 🛠 How to use
 

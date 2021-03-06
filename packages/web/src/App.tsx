@@ -25,26 +25,7 @@ const App = () => {
 
     if (res.ok) {
       setUrl(url);
-
-      const allFormats: videoFormat[] = await res.json();
-      const sortedFormats = allFormats
-        .filter((format) => format.hasAudio && format.hasVideo)
-        .sort((a, b) => {
-          if (a.container > b.container) return 1;
-          else if (b.container > a.container) return -1;
-          else {
-            const resDiff =
-              (b.width || 0) * (b.height || 0) -
-              (a.height || 0) * (a.height || 0);
-            if (resDiff !== 0) return resDiff;
-            else
-              return (
-                parseInt(b.contentLength, 10) - parseInt(a.contentLength, 10)
-              );
-          }
-        });
-
-      setFormats(sortedFormats);
+      setFormats(await res.json());
     } else {
       setError(await res.text());
       console.error(error);

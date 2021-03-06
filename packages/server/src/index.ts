@@ -1,5 +1,4 @@
 import express from 'express';
-import pk from '../package.json';
 import ytdl from 'ytdl-core';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -16,7 +15,7 @@ const main = async () => {
   );
 
   app.get('/version', async (_, res) => {
-    res.status(200).send(pk.version);
+    res.status(200).send(process.env.npm_package_version);
   });
 
   app.get('/formats', async (req, res) => {
@@ -28,7 +27,36 @@ const main = async () => {
 
       const info = await ytdl.getInfo(url);
 
-      res.status(200).send(info.formats);
+      const availableFormats = info.formats
+        .filter((format) => !!format.qualityLabel && format.hasVideo)
+        .sort((a, b) => {
+          if (a.container > b.container) return 1;
+          else if (b.container > a.container) return -1;
+          else
+            return (
+              parseInt(b.qualityLabel.split('p')[0], 10) -
+              parseInt(a.qualityLabel.split('p')[0], 10)
+            );
+        });
+
+      const dualFormats = availableFormats.filter(
+        (format) => format.hasAudio && format.hasAudio
+      );
+
+      dualFormats.forEach((dualFormat) => {
+        const singleFormat = availableFormats.find(
+          (format) =>
+            format.container === dualFormat.container &&
+            format.qualityLabel === dualFormat.qualityLabel &&
+            format.itag !== dualFormat.itag
+        );
+
+        if (singleFormat) {
+          availableFormats.splice(availableFormats.indexOf(singleFormat), 1);
+        }
+      });
+
+      res.status(200).send(availableFormats);
     } catch (err) {
       console.error(err);
 
