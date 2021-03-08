@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [production]
+  push:
+    branches: [develop]
 
 jobs:
   build_and_test:
