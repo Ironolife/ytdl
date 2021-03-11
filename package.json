@@ -4,8 +4,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "rimraf /packages/**/{build,dist} && yarn workspaces run build",
-    "test": "jest --passWithNoTests"
+    "build": "yarn workspaces run build",
+    "test": "jest --passWithNoTests",
+    "clean": "rimraf /packages/**/{build,dist}"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
