@@ -5,9 +5,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const app = express();
-
 const main = async () => {
+  const app = express();
+
+  app.set('trust proxy', 1);
+
   app.use(
     cors({
       origin: process.env.CORS_ORIGIN,
