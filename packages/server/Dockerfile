@@ -1,6 +1,6 @@
 FROM node:14
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/ytdl
 
 COPY package.json ./
 
